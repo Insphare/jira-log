@@ -43,6 +43,7 @@ class ParserCompact extends ParserAbstract {
 			'^ao$' => 'Allgemeines (und Organisatorisches)',
 			'^tf$' => 'Team Frühstück',
 			'^ms$' => 'Team Massage',
+			'^wf$' => 'Weihnachtsfeier',
 			'kommunikation' => 'Kommunikation',
 			'(^|\s+)task(\s+|$)' => '$1Task$2',
 			'(^|\s+)vorbereitung(\s+|$)' => '$1Vorbereitung$2',
