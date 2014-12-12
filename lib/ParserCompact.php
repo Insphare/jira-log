@@ -39,6 +39,8 @@ class ParserCompact extends ParserAbstract {
 			'^sm$' => 'Sprint-Meeting',
 			'^rm$' => 'Refactoring Meeting',
 			'^su$' => 'Standup',
+			'^ik$' => 'Interne Kommunikation',
+			'^ao$' => 'Allgemeines (und Organisatorisches)',
 			'kommunikation' => 'Kommunikation',
 			'(^|\s+)task(\s+|$)' => '$1Task$2',
 			'(^|\s+)vorbereitung(\s+|$)' => '$1Vorbereitung$2',

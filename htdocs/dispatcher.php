@@ -130,7 +130,7 @@ if (!empty($_SERVER['HTTP_X_IS_AJAX_CALL']) && $_SERVER['HTTP_X_IS_AJAX_CALL'] =
 
 				$jira = new Jira();
 				foreach ($tasks as $index => $data) {
-					$jira->logTime($fields['issue'], $fields['duration'], $fields['comment']);
+					$jira->logTime($data['issue'], $data['duration'], $data['comment']);
 				}
 				$successMessage = 'Zeiten erfolgreich gebucht. Schönen Feierabend!';
 				$_SESSION['sheet'] = '';
