@@ -7,7 +7,10 @@
 			Beschreibung
 		</td>
 		<td>
-			Arbeitszeit
+			Startdatum / -uhrzeit
+		</td>
+		<td>
+			Arbeitsdauer
 		</td>
 		<td>
 			Kommentar
@@ -15,7 +18,7 @@
 	</tr>
 	{$data}
 	<tr>
-		<td colspan="2" align="right">
+		<td colspan="3" align="right">
 			<strong>Summe</strong>&nbsp;&nbsp;
 		</td>
 		<td>

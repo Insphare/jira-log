@@ -86,29 +86,18 @@ $(document).ready(function () {
 	};
 
 	_calculate = function() {
-		var hour = 0;
+		var minutes = 0;
 
 		$('.numberMinute').each(function(x,object) {
-			hour += (parseInt($(object).val())/60);
+			minutes += parseInt($(object).val());
 		});
 
 		$('.numberHour').each(function(x,object) {
-			hour += (parseInt($(object).val()));
+			minutes += 60 * parseInt($(object).val());
 		});
 
-		var split = hour.toString().split('.');
-
-		$('.hourSum').text(split[0] + 'h');
-		var minute = 0;
-		if (split && split[1]) {
-			var splited = split[1];
-			if (splited.length == 1) {
-				splited *= 10;
-			}
-			minute = parseFloat(parseFloat(splited)/100*60)
-		}
-
-		$('.MinSum').text(minute + 'm');
+		$('.hourSum').text(Math.floor(minutes / 60) + 'h');
+		$('.MinSum').text(minutes % 60 + 'm');
 	};
 
 	$('#testConnection').off('click.test').on('click.test', function () {
@@ -143,6 +132,7 @@ $(document).ready(function () {
 			$('.numberHour, .numberMinute').change(function() {
 				_calculate();
 			});
+			$('input[type=date]').datepicker();
 			$('input.book').off('click.book').on('click.book', function(){
 				var answer = confirm('Wirklich jetzt buchen?');
 				if (answer) {
@@ -151,11 +141,19 @@ $(document).ready(function () {
 					$('.bookItem').each(function(index, objectIdentifier) {
 						var trObject = $(objectIdentifier),
 							taskIssue = trObject.attr('data-issue'),
+							startDate = $('.startDate', trObject).val(),
+							startHour = $('.startHour', trObject).val(),
+							startMinute = $('.startMinute', trObject).val(),
 							hours = $('.numberHour', trObject).val() + 'h ',
 							minutes = $('.numberMinute', trObject).val() + 'm ',
 							comment = $('.comment', trObject).val()
 						;
-						items[i] = {'issue': taskIssue, 'duration': hours + minutes, 'comment': comment};
+						items[i] = {
+							issue: taskIssue,
+							start: startDate + ' ' + startHour + ':' + startMinute,
+							duration: hours + minutes,
+							comment: comment
+						};
 						i++;
 					});
 

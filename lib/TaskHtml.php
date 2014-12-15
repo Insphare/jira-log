@@ -19,12 +19,18 @@ class TaskHtml {
 	 * @var string
 	 */
 	private $time = '';
+	
+	/**
+	 * @var DateTime
+	 */
+	private $start;
 
 	/**
 	 * @param Task $task
 	 */
 	public function __construct(Task $task) {
 		$this->task = $task;
+		$this->start = new DateTime();
 	}
 
 	/**
@@ -44,6 +50,18 @@ class TaskHtml {
 		$this->comment = (string)$comment;
 		return $this;
 	}
+	
+	/**
+	 * @param DateTime|string $start
+	 * @return $this
+	 */
+	public function setStart($start) {
+		if (!$start instanceof DateTime) {
+			$start = new DateTime((string)$start);
+		}
+		$this->start = $start;
+		return $this;
+	}
 
 	/**
 	 * @return string
@@ -61,8 +79,11 @@ class TaskHtml {
 			'issue' => $this->task->getIssue(),
 			'summary' => $this->task->getSummary(),
 			'timeHour' => $time[0],
-			'timeMin' => ($time[1] / 100) * 60,
+			'timeMin' => round(($time[1] * 60) / 100),
 			'comment' => $this->comment,
+			'startDay' => $this->start->format('d.m.Y'),
+			'startHour' => $this->start->format('G'),
+			'startMin' => (int)$this->start->format('i'),
 		));
 
 		return $t->fetch('taskHtml.tpl');
