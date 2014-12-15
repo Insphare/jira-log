@@ -59,7 +59,6 @@ h2 {
 }
 
 table {
-	width: 500px;
 	border-collapse: collapse;
 	margin-top: 30px;
 }
@@ -70,10 +69,6 @@ th {
 	font-size: 130%;
 }
 
-tr:first-child {
-	border-bottom: 1px solid #0958aa;
-}
-
 tr {
 	border-bottom: 1px solid #0958aa;
 }
@@ -82,11 +77,6 @@ td {
 	padding: 4px;
 	padding-top: 6px;
 	padding-bottom: 6px;
-}
-
-td:first-child {
-	width: 100px;
-	font-weight: bold;
 }
 
 table textarea {
@@ -141,20 +131,32 @@ table textarea {
 	width: 600px;
 }
 
+.wrapperLeft table {
+	width: 500px;
+}
+
+.wrapperLeft td:first-child {
+	width: 100px;
+	font-weight: bold;
+}
+
 .taskPreview {
 	width: 850px;
 }
 
 .taskPreview td:first-child {
-	font-weight: normal;
-	width: 75px !important;
+	width: 75px;
 }
 
 .taskPreview tr td:nth-child(3) {
-	width: 106px;
+	white-space: nowrap;
 }
 
 .taskPreview tr td:nth-child(4) {
+	width: 106px;
+}
+
+.taskPreview tr td:nth-child(5) {
 	width: 260px;
 }
 
@@ -166,11 +168,23 @@ table textarea {
 	vertical-align: top;
 }
 
-.numberHour {
+input[type=date] {
+	width: 64px;
+}
+
+.ui-datepicker th {
+	font-size: inherit;
+}
+
+.ui-datepicker tr {
+	border: none;
+}
+
+.numberHour, .startHour {
 	width: 30px;
 }
 
-.numberMinute {
+.numberMinute, .startMinute {
 	width: 35px;
 }
 

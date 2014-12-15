@@ -58,7 +58,7 @@ abstract class ParserAbstract {
 	 * @param string $time
 	 * @param string $comment
 	 */
-	protected function addTask($task, $time, $comment) {
+	protected function addTask($task, $time, $comment, $start = null) {
 		//@todo configurable
 		if (!preg_match('~^VS-\d+~', $task)) {
 			$comment = $task . ', ' . $comment;
@@ -67,7 +67,7 @@ abstract class ParserAbstract {
 		$this->formatComment($comment);
 		$taskObject = $this->getTaskObject($task);
 		$taskHtml = new TaskHtml($taskObject);
-		$taskHtml->setComment($comment)->setTime($time);
+		$taskHtml->setComment($comment)->setTime($time)->setStart($start);
 		$this->tasks[] = $taskHtml;
 	}
 
