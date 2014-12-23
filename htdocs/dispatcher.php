@@ -97,7 +97,8 @@ if (!empty($_SERVER['HTTP_X_IS_AJAX_CALL']) && $_SERVER['HTTP_X_IS_AJAX_CALL'] =
 
 			case '/preview':
 				$plainText = !empty($_SESSION['sheet']) ? $_SESSION['sheet'] : '';
-				$taskHtmlObjects = TaskParserFactory::getTaskHtmlObjects($plainText, $_SESSION['timetrack']);
+				$timeTrack = !empty($_SESSION['timetrack']) ? $_SESSION['timetrack'] : '';
+				$taskHtmlObjects = TaskParserFactory::getTaskHtmlObjects($plainText, $timeTrack);
 				$html = $template->assign('data', implode('', $taskHtmlObjects))->fetch('preview.tpl');
 				break;
 
@@ -106,11 +107,11 @@ if (!empty($_SERVER['HTTP_X_IS_AJAX_CALL']) && $_SERVER['HTTP_X_IS_AJAX_CALL'] =
 					throw new Exception('Keine zu buchende Tasks vorhanden.');
 				}
 
-				$fields = array('issue', 'duration', 'comment');
+				$fields = array('issue', 'duration', 'comment', 'start');
 				$tasks = $_POST['tasks'];
 
 				// check for valid data, stop on error and book nothing!
-				foreach ($tasks as $index => $data) {
+				foreach ($tasks as $data) {
 					foreach ($fields as $keyName) {
 						if (!isset($data[$keyName])) {
 							$error = array();
@@ -129,9 +130,8 @@ if (!empty($_SERVER['HTTP_X_IS_AJAX_CALL']) && $_SERVER['HTTP_X_IS_AJAX_CALL'] =
 				}
 
 				$jira = new Jira();
-				foreach ($tasks as $index => $data) {
-					// not tested yet. it have to test on real booking time.
-//					$jira->logTime($fields['issue'], $fields['duration'], $fields['comment']);
+				foreach ($tasks as $data) {
+					$jira->logTime($data['issue'], $data['duration'], $data['comment'], $data['start']);
 				}
 				$successMessage = 'Zeiten erfolgreich gebucht. Schönen Feierabend!';
 				$_SESSION['sheet'] = '';

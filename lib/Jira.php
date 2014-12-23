@@ -91,7 +91,10 @@ class Jira {
 	 * @return array|mixed
 	 */
 	public function getTimeTrackTask() {
-		return $this->search('assignee = currentUser() and summary ~ "timetrack"');
+		return $this->search(Config::get(
+			Config::KEY_PROJECTS,
+			Config::SUBKEY_PROJECTS_TIMETRACKING_TASK_SEARCH
+		));
 	}
 
 	/**
@@ -137,7 +140,7 @@ class Jira {
 
 		$params = array(
 			'comment' => $comment,
-			'started' => $date->format('Y-m-d').'T'.$date->format('H:i:s').'.000+0000',
+			'started' => $date->format('Y-m-d\TH:i:s.000O'),
 			'timeSpent' => $duration,
 		);
 

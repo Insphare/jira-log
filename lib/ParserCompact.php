@@ -6,6 +6,18 @@
 class ParserCompact extends ParserAbstract {
 
 	/**
+	 * Finds out if the parser understands format of the given data
+	 *
+	 * @todo Analyze the sheet and find out if it can be parsed (or remove this parser)
+	 *
+	 * @param string $sheet
+	 * @return mixed
+	 */
+	public static function canParse($sheet) {
+		return true;
+	}
+
+	/**
 	 * parse the sheet
 	 */
 	protected function parse() {
@@ -32,25 +44,14 @@ class ParserCompact extends ParserAbstract {
 	 *
 	 * @param string $comment
 	 */
-	protected function formatComment(&$comment) {
-		$searchReplacePattern = array(
-			'^tl$' => '',
-			'^ae$' => 'Erfassung der Arbeitszeiten',
-			'^sm$' => 'Sprint-Meeting',
-			'^rm$' => 'Refactoring Meeting',
-			'kommunikation' => 'Kommunikation',
-			'(^|\s+)task(\s+|$)' => '$1Task$2',
-			'(^|\s+)vorbereitung(\s+|$)' => '$1Vorbereitung$2',
-		);
-
+	protected function formatComment(&$comment, $task = null) {
+		if (isset($task)) {
+			$comment = $task . ', ' . $comment;
+		}
 		$comment = trim($comment);
 		$parts = explode(',', $comment);
 		foreach ($parts as $key => &$piece) {
-			$piece = trim($piece);
-			foreach($searchReplacePattern as $regEx => $replace) {
-				$piece = trim(preg_replace('~' . $regEx . '~', $replace, $piece));
-			}
-			$piece = ucfirst($piece);
+			$piece = ucfirst(parent::formatComment(trim($piece)));
 
 			if (empty($piece)) {
 				unset($parts[$key]);

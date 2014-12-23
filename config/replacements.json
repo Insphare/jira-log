@@ -1,0 +1,15 @@
+{
+	"~^tl$~i": "",
+	"~^ae$~i": "Erfassung der Arbeitszeiten",
+	"~^sm$~i": "Sprint-Meeting",
+	"~^rm$~i": "Refactoring Meeting",
+	"~^su$~i": "Standup",
+	"~^ik$~i": "Interne Kommunikation",
+	"~^ao$~i": "Allgemeines (und Organisatorisches)",
+	"~^tf$~i": "Team Frühstück",
+	"~^ms$~i": "Team Massage",
+	"~^wf$~i": "Weihnachtsfeier",
+	"~\bkommunikation~i": "Kommunikation",
+	"~\btask~i": "Task",
+	"~\bvorbereitung~i": "Vorbereitung"
+}
