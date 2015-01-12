@@ -8,6 +8,8 @@ class TaskParserFactory {
 	/**
 	 * @param string $sheet
 	 * @param string $alternateIssue
+	 *
+	 * @throws ParseException
 	 * @return TaskHtml[]
 	 */
 	public static function getTaskHtmlObjects($sheet, $alternateIssue) {

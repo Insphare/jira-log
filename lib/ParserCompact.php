@@ -43,6 +43,7 @@ class ParserCompact extends ParserAbstract {
 	 * Overwrite method. Called in ParserAbstract::addTask
 	 *
 	 * @param string $comment
+	 * @param null $task
 	 */
 	protected function formatComment(&$comment, $task = null) {
 		if (isset($task)) {
