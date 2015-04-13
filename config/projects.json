@@ -1,4 +1,4 @@
 {
-	"projects-timelogging-allowed": ["VS"],
+	"projects-timelogging-allowed": ["VS", "VF"],
 	"timetracking-task-search": "assignee = currentUser() and summary ~ \"timetrack\""
 }
