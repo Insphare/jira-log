@@ -31,7 +31,7 @@ class ParserGeneric extends ParserAbstract {
 		});
 		$this->queueTask();
 	}
-
+	
 	/**
 	 * memorize task for summarization / add task when number changes
 	 */
@@ -45,14 +45,7 @@ class ParserGeneric extends ParserAbstract {
 		if ($taskChanged) {
 			$tasknumber = $firstTask['tasknumber'];
 			$starttime = $firstTask['starttime'];
-			$duration = 0;
-			$descriptions = [];
-			$prefix = count($this->taskQueue) > 1 ? '- ' : '';
-			foreach ($this->taskQueue as $row) {
-				$this->formatComment($row['description']);
-				$descriptions[] = "$prefix$row[description]";
-				$duration += $row['duration'];
-			}
+			list($descriptions, $duration) = $this->describe();
 			if (round($duration) !== 0.0) {
 				$duration = number_format($duration / 60, 2, ',', '');
 				$this->addTask($tasknumber, $duration, implode(PHP_EOL, $descriptions), $starttime);
@@ -62,5 +55,35 @@ class ParserGeneric extends ParserAbstract {
 		if (isset($task)) {
 			$this->taskQueue[] = $task;
 		}
+	}
+	
+	/**
+	 * create task descriptions
+	 */
+	private function describe() {
+		$duration = 0;
+		$descriptions = [];
+		$multiline = count($this->taskQueue) > 1;
+		foreach ($this->taskQueue as $row) {
+			$this->formatComment($row['description']);
+			$description = $multiline ? '- ' : '';
+			$description .= $row['description'];
+			if ($multiline) {
+				$description .= ' (';
+				$hours = floor($row['duration'] / 60);
+				if ($hours > 0) {
+					$description .= $hours . 'h';
+				}
+				$minutes = $row['duration'] % 60;
+				if ($minutes > 0) {
+					if ($hours > 0) $description .= ' ';
+					$description .= $minutes . 'm';
+				}
+				$description .= ')';
+			}
+			$descriptions[] = $description;
+			$duration += $row['duration'];
+		}
+		return [$descriptions, $duration];
 	}
 }
