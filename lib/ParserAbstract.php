@@ -35,6 +35,8 @@ abstract class ParserAbstract {
 	 *
 	 * @param mixed $sheet
 	 *
+	 * @param $sheet
+	 *
 	 * @return mixed
 	 */
 	public static function canParse($sheet) {
@@ -80,7 +82,6 @@ abstract class ParserAbstract {
 	 * @param string $task
 	 * @param string $time
 	 * @param string $comment
-	 * @param null $start
 	 */
 	protected function addTask($task, $time, $comment, $start = null) {
 		$projects = implode('|', (array) Config::get(
@@ -110,7 +111,6 @@ abstract class ParserAbstract {
 	 * Overwrite method. Called in ParserAbstract::addTask
 	 *
 	 * @param string $comment
-	 * @param null $task
 	 */
 	protected function formatComment(&$comment, $task = null) {
 		$searchReplacePattern = (array)Config::get(Config::KEY_REPLACEMENTS);
@@ -119,11 +119,9 @@ abstract class ParserAbstract {
 			array_values($searchReplacePattern),
 			$comment
 		);
-
-
 		if (!empty($task)) {
 			$this->formatComment($task);
-			$comment = trim("$task:\n$comment");
+			$comment = "$task:\n$comment";
 		}
 	}
 }
