@@ -33,7 +33,7 @@ abstract class ParserAbstract {
 	/**
 	 * Finds out if the parser understands format of the given data
 	 *
-	 * @param $sheet
+	 * @param mixed $sheet
 	 *
 	 * @return mixed
 	 */
@@ -120,15 +120,10 @@ abstract class ParserAbstract {
 			$comment
 		);
 
+
 		if (!empty($task)) {
 			$this->formatComment($task);
-
-			if (empty(trim($comment))) {
-				$comment = "$task";
-			}
-			else {
-				$comment = "$task:\n$comment";
-			}
+			$comment = trim("$task:\n$comment");
 		}
 	}
 }
