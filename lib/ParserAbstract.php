@@ -121,7 +121,7 @@ abstract class ParserAbstract {
 		);
 		if (!empty($task)) {
 			$this->formatComment($task);
-			$comment = "$task:\n$comment";
+			$comment = rtrim(trim("$task:\n$comment"), ':');
 		}
 	}
 }
