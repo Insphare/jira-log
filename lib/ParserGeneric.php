@@ -48,7 +48,8 @@ class ParserGeneric extends ParserAbstract {
 			list($descriptions, $duration) = $this->describe();
 			if (round($duration) !== 0.0) {
 				$duration = number_format($duration / 60, 2, ',', '');
-				$this->addTask($tasknumber, $duration, implode(PHP_EOL, $descriptions), $starttime);
+				$comment = rtrim(trim(trim(implode(PHP_EOL, $descriptions), chr(0))), ':');
+				$this->addTask($tasknumber, $duration, $comment, $starttime);
 			}
 			$this->taskQueue = [];
 		}
