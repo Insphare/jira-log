@@ -158,7 +158,7 @@ class Jira {
 	public function getLoggedTime() {
 		$collection = [];
 		// startOfWeek
-		$result = $this->search('worklogAuthor = manuel_will and worklogDate = "2015-11-24"');
+		$result = $this->search('worklogAuthor = manuel_will and worklogDate = startOfWeek()');
 		foreach ((array)Traversal::traverse($result, 'issues') as $issue) {
 			$path = sprintf('/rest/api/latest/issue/%s/worklog', $issue['id']);
 			$response = $this->getRequest()->setMethodGet()->setAuth($this->getAuth())->setPath($path)->get();
