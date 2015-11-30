@@ -158,16 +158,12 @@ class Jira {
 	public function getLoggedTime() {
 		$collection = [];
 		// startOfWeek
-		$i=0;
-		$result = $this->search('worklogAuthor = manuel_will and worklogDate >= startOfMonth()');
+		$result = $this->search('worklogAuthor = manuel_will and worklogDate = "2015-11-24"');
 		foreach ((array)Traversal::traverse($result, 'issues') as $issue) {
 			$path = sprintf('/rest/api/latest/issue/%s/worklog', $issue['id']);
 			$response = $this->getRequest()->setMethodGet()->setAuth($this->getAuth())->setPath($path)->get();
 			$logs = array_map([$this, 'getWorkLog'], (array)Traversal::traverse($response, 'worklogs'));
 			$collection[$issue['key']] = array_values(array_filter($logs));
-			if ($i++>20) {
-				break;
-			}
 		}
 
 		// summary
@@ -179,10 +175,15 @@ class Jira {
 				$kw = $dateTime->format('W');
 
 				if (!isset($returns[$kw][$dateTime->format('D')])) {
-					$returns[$kw][$dateTime->format('D')]['logs'] = 0.0;
+					$returns[$kw][$dateTime->format('D')]['sum'] = 0.0;
 				}
 
-				$returns[$kw][$dateTime->format('D')]['logs'] += (float)$row['timeSpent'];
+				if (!isset($returns[$kw][$dateTime->format('D')]['task'][$taskNumber])) {
+					$returns[$kw][$dateTime->format('D')]['task'][$taskNumber] = 0.0;
+				}
+
+				$returns[$kw][$dateTime->format('D')]['task'][$taskNumber] += (float)$row['timeSpentSeconds'];
+				$returns[$kw][$dateTime->format('D')]['sum'] += (float)$row['timeSpentSeconds'];
 			}
 		}
 
@@ -196,12 +197,18 @@ class Jira {
 			return false;
 		}
 
-		$dateTime = new \DateTime(Traversal::traverse($workLog, 'created'));
+		$dateTime = new \DateTime(Traversal::traverse($workLog, 'started'));
+		$currentKw = date('W');
+		$year = date('Y');
+		if ($dateTime->format('W') != ($currentKw) || $dateTime->format('Y') != $year) {
+			return false;
+		}
 
 		$result = [
+			'comment' => Traversal::traverse($workLog, 'comment'),
 			'author' => $author,
 			'created'=> $dateTime,
-			'timeSpent' => Traversal::traverse($workLog, 'timeSpentSeconds'),
+			'timeSpentSeconds' => Traversal::traverse($workLog, 'timeSpentSeconds'),
 			'timeHuman' => Traversal::traverse($workLog, 'timeSpent'),
 		];
 

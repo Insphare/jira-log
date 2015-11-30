@@ -97,7 +97,8 @@ if (!empty($_SERVER['HTTP_X_IS_AJAX_CALL']) && $_SERVER['HTTP_X_IS_AJAX_CALL'] =
 
 			case '/log':
 				$array = $jira->getLoggedTime();
-				$html = $template->assign('data', $array)->fetch('logs.tpl');
+				$sheet = new WorkSheetHtml($array);
+				$html = (string)$sheet;
 				break;
 
 			case '/preview':
