@@ -155,4 +155,57 @@ class Jira {
 		return $response;
 	}
 
+	public function getLoggedTime() {
+		$collection = [];
+		// startOfWeek
+		$i=0;
+		$result = $this->search('worklogAuthor = manuel_will and worklogDate >= startOfMonth()');
+		foreach ((array)Traversal::traverse($result, 'issues') as $issue) {
+			$path = sprintf('/rest/api/latest/issue/%s/worklog', $issue['id']);
+			$response = $this->getRequest()->setMethodGet()->setAuth($this->getAuth())->setPath($path)->get();
+			$logs = array_map([$this, 'getWorkLog'], (array)Traversal::traverse($response, 'worklogs'));
+			$collection[$issue['key']] = array_values(array_filter($logs));
+			if ($i++>20) {
+				break;
+			}
+		}
+
+		// summary
+		$returns = [];
+		foreach ($collection as $taskNumber => $data) {
+			foreach ($data as $row) {
+				/** @var DateTime $dateTime */
+				$dateTime = $row['created'];
+				$kw = $dateTime->format('W');
+
+				if (!isset($returns[$kw][$dateTime->format('D')])) {
+					$returns[$kw][$dateTime->format('D')]['logs'] = 0.0;
+				}
+
+				$returns[$kw][$dateTime->format('D')]['logs'] += (float)$row['timeSpent'];
+			}
+		}
+
+		return $returns;
+	}
+
+	private function getWorkLog(array $workLog) {
+
+		$author = Traversal::traverse($workLog, 'author.name');
+		if ($author != Config::get(Config::KEY_USERNAME)) {
+			return false;
+		}
+
+		$dateTime = new \DateTime(Traversal::traverse($workLog, 'created'));
+
+		$result = [
+			'author' => $author,
+			'created'=> $dateTime,
+			'timeSpent' => Traversal::traverse($workLog, 'timeSpentSeconds'),
+			'timeHuman' => Traversal::traverse($workLog, 'timeSpent'),
+		];
+
+		return $result;
+	}
+
 }

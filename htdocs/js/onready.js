@@ -104,6 +104,16 @@ $(document).ready(function () {
 		_callAjax('/check', {});
 	});
 
+	$('#log').off('click.log').on('click.log', function (e) {
+		var callback = function(jsonResponse) {
+			$('#ajaxContent').show();
+		};
+		_callAjax('/log', {}, callback);
+		e.stopPropagation();
+		e.preventDefault();
+		return false;
+	});
+
 	$('#getTimeTrack').off('click.timeTrack').on('click.timeTrack', function () {
 		var callback = function(jsonResponse) {
 			if (jsonResponse['issues'] && jsonResponse['issues'][0] && jsonResponse['issues'][0]['key']) {
@@ -113,6 +123,9 @@ $(document).ready(function () {
 		};
 		_callAjax('/timetrack', {}, callback);
 	});
+
+
+
 
 	$('#callProfile').off('click.profile').on('click.profile', function () {
 		var params = {'username': $('#username').val(), 'password': $('#password').val()};

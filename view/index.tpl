@@ -7,6 +7,11 @@
 	<div class="left wrapperLeft">
 		<table>
 			<tr>
+				<td colspan="2">
+					<a href="/log" id="log">Log</a>
+				</td>
+			</tr>
+			<tr>
 				<th colspan="2">
 					Konfiguration
 				</th>

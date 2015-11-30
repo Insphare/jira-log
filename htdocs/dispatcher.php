@@ -95,6 +95,11 @@ if (!empty($_SERVER['HTTP_X_IS_AJAX_CALL']) && $_SERVER['HTTP_X_IS_AJAX_CALL'] =
 
 				break;
 
+			case '/log':
+				$array = $jira->getLoggedTime();
+				$html = $template->assign('data', $array)->fetch('logs.tpl');
+				break;
+
 			case '/preview':
 				$plainText = !empty($_SESSION['sheet']) ? $_SESSION['sheet'] : '';
 				$timeTrack = !empty($_SESSION['timetrack']) ? $_SESSION['timetrack'] : '';
