@@ -145,7 +145,11 @@ $(document).ready(function () {
 			$('.numberHour, .numberMinute').change(function() {
 				_calculate();
 			});
-			$('.startDate').datepicker();
+			$('.startDate').datepicker({
+				onSelect: function (dateText) {
+					$('.startDate').val(dateText);
+				}
+			});
 			$('input.book').off('click.book').on('click.book', function(){
 				var answer = confirm('Wirklich jetzt buchen?');
 				if (answer) {
