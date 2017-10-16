@@ -89,7 +89,12 @@ abstract class ParserAbstract {
 			Config::SUBKEY_PROJECTS_TIMELOGGING_ALLOWED
 		));
 		$referenceTask = null;
-		if (!preg_match("~^($projects)-\\d+$~", $task)) {
+
+		//@todo auslagern in config
+		if (preg_match("~^(RERP)-\\d+$~", $task)) {
+			list($referenceTask, $task) = [$task, 'VS-3371'];
+		}
+		elseif (!preg_match("~^($projects)-\\d+$~", $task)) {
 			list($referenceTask, $task) = [$task, $this->alternateIssue];
 		}
 		$this->formatComment($comment, $referenceTask);
