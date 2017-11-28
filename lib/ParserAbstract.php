@@ -91,10 +91,13 @@ abstract class ParserAbstract {
 		$referenceTask = null;
 
 		//@todo auslagern in config
-		if (preg_match("~^(RERP)-\\d+$~", $task)) {
+		if (preg_match("~^(RERP)-\\d+$~i", $task)) {
 			list($referenceTask, $task) = [$task, 'VS-3371'];
 		}
-		elseif (!preg_match("~^($projects)-\\d+$~", $task)) {
+		elseif (preg_match("~^(STS)-\\d+$~i", $task)) {
+			list($referenceTask, $task) = [$task, 'STSI-167'];
+		}
+		elseif (!preg_match("~^($projects)-\\d+$~i", $task)) {
 			list($referenceTask, $task) = [$task, $this->alternateIssue];
 		}
 		$this->formatComment($comment, $referenceTask);

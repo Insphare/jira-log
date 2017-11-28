@@ -4,6 +4,7 @@
 - maybe host should be configurable and not hardcoded in file.
 - button to get summary booking time for today.
 - clean up onready.js
+- refactor ParserAbstract:93
 
 @fixed
 - ~~first test entry~~
