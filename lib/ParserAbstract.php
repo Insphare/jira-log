@@ -91,7 +91,7 @@ abstract class ParserAbstract {
 		$referenceTask = null;
 
 		//@todo auslagern in config
-		if (preg_match("~^(RERP)-\\d+$~i", $task)) {
+		if (preg_match("~^(RERP|ERP)-\\d+$~i", $task)) {
 			list($referenceTask, $task) = [$task, 'VS-3371'];
 		}
 		elseif (preg_match("~^(STS)-\\d+$~i", $task)) {
