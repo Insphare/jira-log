@@ -80,12 +80,16 @@ class TaskHtml {
 			'summary' => $this->task->getSummary(),
 			'timeHour' => $time[0],
 			'timeMin' => round(($time[1] * 60) / 100),
-			'comment' => $this->comment,
+			'comment' => !empty($this->comment) ? $this->comment : $this->autoCompletePrefix(),
 			'startDay' => $this->start->format('d.m.Y'),
 			'startHour' => $this->start->format('G'),
 			'startMin' => (int)$this->start->format('i'),
 		));
 
 		return $t->fetch('taskHtml.tpl');
+	}
+
+	private function autoCompletePrefix() {
+		return preg_replace('~(\d+)\s.*~', 'SYSL-$1', $this->task->getSummary());
 	}
 }
