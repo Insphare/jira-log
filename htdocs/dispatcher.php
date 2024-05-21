@@ -31,6 +31,7 @@ Config::set(Config::KEY_BASE_DIR, BASR_DIR);
 Config::set(Config::KEY_USERNAME, $user);
 Config::set(Config::KEY_PASSWORD, $pass);
 Config::set(Config::KEY_JIRA_HOST, file_get_contents(dirname(dirname(__FILE__)).DS.'host'));
+Config::set(Config::KEY_TOKEN, file_get_contents(dirname(dirname(__FILE__)).DS.'token'));
 
 $jira = new Jira();
 $template = new Template();

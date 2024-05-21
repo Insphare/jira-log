@@ -17,13 +17,17 @@ class Auth {
 	 */
 	private $pass = null;
 
+    private $token = null;
+
 	/**
 	 * @param string $user
 	 * @param string $pass
+     * @param string $token
 	 */
-	public function __construct($user, $pass) {
+	public function __construct($user, $pass, $token) {
 		$this->user = (string)$user;
 		$this->pass = (string)$pass;
+        $this->token = (string)$token;
 	}
 
 	/**
@@ -41,4 +45,12 @@ class Auth {
 	public function getUser() {
 		return $this->user;
 	}
+
+    /**
+     * @return string
+     */
+    public function getToken(): string
+    {
+        return $this->token;
+    }
 }

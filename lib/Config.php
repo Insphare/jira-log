@@ -17,6 +17,7 @@ abstract class Config {
 	const KEY_REPLACEMENTS = 'replacements';
 	const KEY_PARSERS = 'parsers';
 	const KEY_PROJECTS = 'projects';
+    const KEY_TOKEN = 'auth-token';
 	const SUBKEY_PROJECTS_TIMELOGGING_ALLOWED = 'projects-timelogging-allowed';
 	const SUBKEY_PROJECTS_TIMETRACKING_TASK_SEARCH = 'timetracking-task-search';
 

@@ -19,7 +19,7 @@ class Jira {
 	 */
 	private function getAuth() {
 		if (null === $this->auth) {
-			$this->auth = new Auth(Config::get(Config::KEY_USERNAME), Config::get(Config::KEY_PASSWORD));
+			$this->auth = new Auth(Config::get(Config::KEY_USERNAME), Config::get(Config::KEY_PASSWORD), Config::get(Config::KEY_TOKEN));
 		}
 
 		return $this->auth;
@@ -55,7 +55,7 @@ class Jira {
 		$response = $this->getRequest()
 			->setMethodGet()
 			->setAuth($auth)
-			->setPath('/rest/api/2/myself')
+			->setPath('/rest/api/3/myself')
 			->get()
 		;
 		return $response;
@@ -112,7 +112,8 @@ class Jira {
 		$response = $this->getRequest()
 			->setMethodGet()
 			->setAuth($auth)
-			->setPath(sprintf('/rest/api/latest/issue/%s?expand=schema,names,transitions', $issue))
+//			->setPath(sprintf('/rest/api/latest/issue/%s?expand=schema,names,transitions', $issue))
+            ->setPath(sprintf('/rest/api/2/issue/%s', $issue))
 			->get()
 		;
 

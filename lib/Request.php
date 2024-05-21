@@ -137,18 +137,20 @@ class Request {
 		if (!empty($this->params) && $this->method === self::METHOD_GET) {
 			$url .= '?' . http_build_query($this->params);
 		}
-
 		curl_setopt($curl, CURLOPT_URL, $url);
 		curl_setopt($curl, CURLOPT_HEADER, 0);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
 		if ($this->auth instanceof Auth) {
-			curl_setopt($curl, CURLOPT_USERPWD, sprintf('%s:%s', $this->auth->getUser(), $this->auth->getPass()));
-		}
+            //curl_setopt($curl, CURLOPT_USERPWD, sprintf('%s:%s', $this->auth->getUser(), $this->auth->getPass()));
+//            curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+            $auth = sprintf('%s:%s', $this->auth->getUser(), $this->auth->getToken());
+            curl_setopt($curl, CURLOPT_USERPWD, $auth);
+        }
 
-		curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
-		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
+//		curl_setopt($curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_2);
+//		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+//		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
 		curl_setopt($curl, CURLOPT_VERBOSE, $this->debug);
 		curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json;charset=UTF-8'));
 
@@ -185,7 +187,9 @@ class Request {
 		if (is_null($data)) {
 			throw new RequestException('JIRA Rest server returns unexpected result.');
 		}
-
+//        var_dump('holy:');
+//        var_dump($url);
+//        var_dump($data);
 		return json_decode($data, true);
 	}
 }
