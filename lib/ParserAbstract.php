@@ -88,6 +88,12 @@ abstract class ParserAbstract {
 			Config::KEY_PROJECTS,
 			Config::SUBKEY_PROJECTS_TIMELOGGING_ALLOWED
 		));
+        // allow all projects since yet xD
+        $taskExploded = explode('-', $task);
+        if (count($taskExploded)) {
+            $projects .= '|'.$taskExploded[0];
+        }
+
 		$referenceTask = null;
 		if (!preg_match("~^($projects)-\\d+$~", $task)) {
 			list($referenceTask, $task) = [$task, $this->alternateIssue];
