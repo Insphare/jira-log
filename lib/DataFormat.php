@@ -98,6 +98,7 @@ class DataFormat {
 		arsort($colSeps);
 		reset($colSeps);
 		$format->colSeparator = key($colSeps);
+        $format->descriptionCol = 3;
 		return true;
 	}
 
